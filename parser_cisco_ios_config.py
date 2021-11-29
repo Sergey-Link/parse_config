@@ -9,16 +9,16 @@ import argparse
 
 
 description = """
-Нужно добавить описание
+Парсит конфигурцию cisco ios на выходе csv файл с vrf и csv файл с префиксами.
 """
 
 aparser = argparse.ArgumentParser(description=description)
-aparser.add_argument('-f', dest='config_file', help='Введите имя файла конфигурции', required=True)
-aparser.add_argument('-s', dest='site', help='Название сайта', required=True)
-aparser.add_argument('-t', dest='tenant', help='Название тенанта', required=True)
-aparser.add_argument('-v', dest='config_type', help='Тип файла')
+aparser.add_argument('-f', dest='config_file', help='Имя файла конфигурции', required = True)
+aparser.add_argument('-s', dest='site', help='Название сайта. По умолчанию: "test site"', required=False, default = 'test site')
+aparser.add_argument('-t', dest='tenant', help='Название тенанта. По умолчанию: "Управление эксплуатации ЛВС"', required=False, default = 'Управление эксплуатации ЛВС')
+aparser.add_argument('-v', dest='config_type', help='Тип файла: ios or nxos. Пока только ios. Default: ios', required=False, default='ios')
+aparser.add_argument('-o', dest='output_file', help='Имя файла csv', required=True)
 args = aparser.parse_args()
-
 
 #Ввод основных переменных
 
@@ -28,10 +28,10 @@ PREF_ROLES = ['Users', 'Production']
 FILE_CONFIG = args.config_file
 #FILE_CONFIG = 'Bekasovo.cfg'
 CONFIG_TYPE = args.config_type
-FILE_VRFS_JSON = 'vrfs_'+FILE_CONFIG+'.json'
-FILE_VRFS_CSV = 'vrfs_'+FILE_CONFIG+'.csv'
-FILE_PREFIX_JSON = 'ip_prefix_'+FILE_CONFIG+'.json'
-FILE_PREFIX_CSV = 'ip_prefix_'+FILE_CONFIG+'.csv'
+#FILE_VRFS_JSON = 'vrfs_'+args.output_file+'.json'
+FILE_VRFS_CSV = 'vrfs_'+args.output_file+'.csv'
+#FILE_PREFIX_JSON = 'ip_prefix_'+args.output_file+'.json'
+FILE_PREFIX_CSV = 'ip_prefix_'+args.output_file+'.csv'
 
 
 parse = CiscoConfParse(FILE_CONFIG, syntax=CONFIG_TYPE)
@@ -151,10 +151,10 @@ for name,rd in vrfs.items():
 
 #Запись файла с врф-ами json и csv:
 
-vrfs_json = json.dumps(vrfs_list, ensure_ascii=False)
+#vrfs_json = json.dumps(vrfs_list, ensure_ascii=False)
 
-with open(FILE_VRFS_JSON, 'w', encoding='utf-8') as f:
-    f.write(vrfs_json)
+#with open(FILE_VRFS_JSON, 'w', encoding='utf-8') as f:
+#    f.write(vrfs_json)
 
 with open(FILE_VRFS_CSV, 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile, delimiter=',')
@@ -168,10 +168,10 @@ with open(FILE_VRFS_CSV, 'w', newline='') as csvfile:
 
 #Запись файла с префиксами-ами json и csv:
 
-ip_prefix_json = json.dumps(ip_prefix, ensure_ascii=False)
+#ip_prefix_json = json.dumps(ip_prefix, ensure_ascii=False)
 
-with open(FILE_PREFIX_JSON, 'w', encoding='utf-8') as f:
-    f.write(ip_prefix_json)
+#with open(FILE_PREFIX_JSON, 'w', encoding='utf-8') as f:
+#    f.write(ip_prefix_json)
 
 
 with open(FILE_PREFIX_CSV, 'w', newline='') as csvfile:
