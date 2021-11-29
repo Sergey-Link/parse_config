@@ -15,7 +15,7 @@ description = """
 aparser = argparse.ArgumentParser(description=description)
 aparser.add_argument('-f', dest='config_file', help='Введите имя файла конфигурции', required=True)
 aparser.add_argument('-s', dest='site', help='Название сайта', required=True)
-aparser.add_argument('-s', dest='tenant', help='Название тенанта', required=True)
+aparser.add_argument('-t', dest='tenant', help='Название тенанта', required=True)
 aparser.add_argument('-v', dest='config_type', help='Тип файла')
 args = aparser.parse_args()
 
