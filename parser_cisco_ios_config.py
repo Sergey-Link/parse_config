@@ -4,17 +4,30 @@ import ipaddress as ip
 import sys
 import json
 import csv
+import argparse
 #import pandas as pd
+
+
+description = """
+Нужно добавить описание
+"""
+
+aparser = argparse.ArgumentParser(description=description)
+aparser.add_argument('-f', dest='config_file', help='Введите имя файла конфигурции', required=True)
+aparser.add_argument('-s', dest='site', help='Название сайта', required=True)
+aparser.add_argument('-s', dest='tenant', help='Название тенанта', required=True)
+aparser.add_argument('-v', dest='config_type', help='Тип файла')
+args = aparser.parse_args()
 
 
 #Ввод основных переменных
 
-SITE = 'Москва, Арбат, 34'
-TENANT = 'Управление эксплуатации ЛВС (Центр)'
+SITE = args.site
+TENANT = args.tenant
 PREF_ROLES = ['Users', 'Production']
-FILE_CONFIG = sys.argv[1]
+FILE_CONFIG = args.config_file
 #FILE_CONFIG = 'Bekasovo.cfg'
-CONFIG_TYPE = 'ios'
+CONFIG_TYPE = args.config_type
 FILE_VRFS_JSON = 'vrfs_'+FILE_CONFIG+'.json'
 FILE_VRFS_CSV = 'vrfs_'+FILE_CONFIG+'.csv'
 FILE_PREFIX_JSON = 'ip_prefix_'+FILE_CONFIG+'.json'
