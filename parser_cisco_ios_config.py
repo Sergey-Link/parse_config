@@ -155,12 +155,13 @@ for name,rd in vrfs.items():
 
 #with open(FILE_VRFS_JSON, 'w', encoding='utf-8') as f:
 #    f.write(vrfs_json)
+if vrfs_list:
+    with open(FILE_VRFS_CSV, 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile, delimiter=',')
+        csvwriter.writerow(vrfs_list[0].keys())
+        for line in vrfs_list:
+            csvwriter.writerow(line.values())
 
-with open(FILE_VRFS_CSV, 'w', newline='') as csvfile:
-    csvwriter = csv.writer(csvfile, delimiter=',')
-    csvwriter.writerow(vrfs_list[0].keys())
-    for line in vrfs_list:
-        csvwriter.writerow(line.values())
 
 #data_json = pd.read_json(FILE_VRFS_JSON)
 
