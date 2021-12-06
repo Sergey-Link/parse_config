@@ -15,7 +15,7 @@ description = """
 aparser = argparse.ArgumentParser(description=description)
 aparser.add_argument('-f', dest='config_file', help='Имя файла конфигурции', required = True)
 aparser.add_argument('-s', dest='site', help='Название сайта. По умолчанию: "test site"', required=False, default = 'test site')
-aparser.add_argument('-t', dest='tenant', help='Название тенанта. По умолчанию: "Управление эксплуатации ЛВС"', required=False, default = 'Управление эксплуатации ЛВС')
+aparser.add_argument('-t', dest='tenant', help='Название тенанта. По умолчанию: "Управление эксплуатации..."', required=False, default = 'Управление эксплуатации ...')
 aparser.add_argument('-v', dest='config_type', help='Тип файла: ios or nxos. Пока только ios. Default: ios', required=False, default='ios')
 aparser.add_argument('-o', dest='output_file', help='Имя файла csv', required=True)
 args = aparser.parse_args()
