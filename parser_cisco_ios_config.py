@@ -68,12 +68,24 @@ for vlan_obj in parse.find_objects('^vlan\s'):
     if vlan_name and vlan_id[0].isdigit():
         vlans[vlan_id.strip()] = vlan_name
     else:
-        if '-' in vlan_id:
-            for k in range(int(vlan_id.split('-')[0]),int(vlan_id.split('-')[1])+1):
-                vlans[str(k)] = 'Vlan'+str(k)
+        if vlan_id[0].isdigit() and ('-' in vlan_id or ',' in vlan_id):
+            if ',' in vlan_id:
+                for v_id in vlan_id.split(','):
+                    if '-' not in v_id:
+                        vlans[v_id.strip()] = 'Vlan'+v_id.strip()
+                    else:
+                        for k_id in range(int(v_id.split('-')[0]),int(v_id.split('-')[1])+1):
+                           vlans[str(k_id)] = 'Vlan'+str(k_id)
+            elif '-' in vlan_id:
+                for k_id in range(int(vlan_id.split('-')[0]),int(vlan_id.split('-')[1])+1):
+                    vlans[str(k_id)] = 'Vlan'+str(k_id)
+            #for k in range(int(vlan_id.split('-')[0]),int(vlan_id.split('-')[1])+1):
+            #    vlans[str(k)] = 'Vlan'+str(k)
         else:
             if vlan_id[0].isdigit():
                 vlans[vlan_id.strip()] = 'Vlan'+vlan_id.strip()
+
+print(vlans)
 
 #
 #Получение списка prefix и запись его в список
