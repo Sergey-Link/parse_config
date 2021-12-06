@@ -36,6 +36,9 @@ FILE_PREFIX_CSV = 'ip_prefix_'+args.output_file+'.csv'
 
 parse = CiscoConfParse(FILE_CONFIG, syntax=CONFIG_TYPE)
 
+global_obj = parse.find_objects(r'^hostname')[0]
+hostname = global_obj.re_match_typed(r'^hostname\s+(\S+)', default='')
+
 #
 #Получение списка vrf и запись его в словарь vrfs = {'vrf_name':'rd'}
 #
@@ -47,6 +50,7 @@ vrfs = {}
 for vrf_obj in parse.find_objects('^ip\svrf\s'):
     vrf_name = vrf_obj.re_match_typed('^ip\svrf\s+(\S.+?)$')
     vrf_rd = vrf_obj.re_match_iter_typed(r'rd\s+(\S.+?)$')
+    vrf_name = hostname+':'+vrf_name
     vrfs[vrf_name] = vrf_rd
 #
 #Получение списка vrf для конфигурации вида: "vrf definition vrf_name"
@@ -54,6 +58,7 @@ for vrf_obj in parse.find_objects('^ip\svrf\s'):
 for vrf_obj in parse.find_objects('^vrf\sdefinition\s'):
     vrf_name = vrf_obj.re_match_typed('vrf\sdefinition\s+(\S.+?)$')
     vrf_rd = vrf_obj.re_match_iter_typed(r'rd\s+(\S.+?)$')
+    vrf_name = hostname+':'+vrf_name
     vrfs[vrf_name] = vrf_rd
 
 #
@@ -62,6 +67,7 @@ for vrf_obj in parse.find_objects('^vrf\sdefinition\s'):
 for vrf_obj in parse.find_objects('^vrf\scontext\s'):
     vrf_name = vrf_obj.re_match_typed('vrf\scontext\s+(\S.+?)$')
     vrf_rd = vrf_obj.re_match_iter_typed(r'rd\s+(\S.+?)$')
+    vrf_name = hostname+':'+vrf_name
     vrfs[vrf_name] = vrf_rd
 
 #
